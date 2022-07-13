@@ -8,7 +8,7 @@ from tensorflow.keras.callbacks import TerminateOnNaN, ReduceLROnPlateau, EarlyS
 from tensorflow.keras.optimizers import Adam, SGD
 import tensorflow.keras.backend as K
 from data_feeder import SpecDataGenerator, StandardNumpyLoader
-from model_structure import save_model, create_nednet_model, create_tarnet_model, dragonnet, dragonvib, CEVAE, \
+from model_structure import save_model, create_nednet_model, create_tarnet_model, dragonnet, causalvib, CEVAE, \
     dragonnet_loss_binarycross, Metrics
 from tensorflow.keras.layers import Layer
 
@@ -175,7 +175,7 @@ class Trainer:
                 self.__test_outputs += [_split_output(yt_hat_test, test[2], test[1], test[3], test[0], test[4])]
                 self.__train_outputs += [
                     _split_output(yt_hat_train, train[2], train[1], test[3], train[0], train[3])]
-                # if 'dragonvib' == self.__network_type:
+                # if 'causalvib' == self.__network_type:
                 #     test_t = 10
                 #     for i in range(test_t):
                 #         yt_test = model.predict(np.concatenate((test[0], test[1], test[2]), axis=1))
@@ -372,10 +372,10 @@ def _calculate(ate_mean, ate_var, ite_mean, ite_var):
 #                     model = dag.create_dragonnet_model(shape[1])
 #                     adam_model = dag.create_dragonnet_model(shape[1])
 #                     loss = dag.getloss()
-#                 elif self.__network_type == 'dragonvib':
-#                     vib = dragonvib(data_feeder, self.__targeted_regularization, ratio)
-#                     model = vib.create_dragonvib_model(shape[1])
-#                     adam_model = vib.create_dragonvib_model(shape[1])
+#                 elif self.__network_type == 'causalvib':
+#                     vib = causalvib(data_feeder, self.__targeted_regularization, ratio)
+#                     model = vib.create_causalvib_model(shape[1])
+#                     adam_model = vib.create_causalvib_model(shape[1])
 #                     loss = vib.getloss()
 #                 elif self.__network_type == 'cevae':
 #                     cevae = CEVAE(data_feeder)

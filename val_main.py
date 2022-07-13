@@ -13,7 +13,7 @@ from pygal.style import CleanStyle
 mode = 0  # 0:held out ;;; 1:held in  ;;; 2:test=train
 varm = 0
 value, model_n = [], []
-name = {'dragonnet': 'dragonnet', 'dragonvib': 'VIBNet', 'tarnet': 'TARNet', 'cevae': 'CEVAE'}
+name = {'dragonnet': 'dragonnet', 'causalvib': 'VIBNet', 'tarnet': 'TARNet', 'cevae': 'CEVAE'}
 mnam = {'baseline': '', 'targeted_regularization': '-tarreg'}
 model2polt = {'dragonnet': 'dragonnet', 'dragonnet-tarreg': 'dragonnet-tarreg',
               'VIBNet': 0, 'VIBNet-tarreg': 'CEVIB',
@@ -57,7 +57,7 @@ def load_truth(ufid, network_type, dataset='ihdp'):
     """
     loading ground truth data
     """
-    file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output\\' \
+    file_path = './data' + dataset + '/output/' \
                 + network_type + '/simu_truth/simulation_outputs_{}.npz'.format(ufid)
     data = load(file_path)
     mu_0 = data['mu_0']
@@ -92,10 +92,10 @@ def load_data(network_type='default', replication=0, model='baseline', train_tes
     loading train test experiment results
     """
     if folder:
-        file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+        file_path = './data' + dataset + '/output' \
                     + '/{}/{}/{}/{}/'.format(network_type, model, folder, ufid)
     else:
-        file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+        file_path = './data' + dataset + '/output' \
                     + '/{}/{}/{}/'.format(network_type, model, ufid)
     data = load(file_path + '{}_{}_{}.npz'.format(network_type, replication, train_test))
     return data['q_t0'].reshape(-1, 1), data['q_t1'].reshape(-1, 1), data['g'].reshape(-1, 1), \
@@ -103,18 +103,18 @@ def load_data(network_type='default', replication=0, model='baseline', train_tes
 
 
 def load_guss_result(replication=0, train_test='test_guss', dataset='ihdp',
-                     ufid=0, network_type='dragonvib',
+                     ufid=0, network_type='causalvib',
                      folder=None, model='targeted_regularization'):
     """
     loading train test experiment results
     """
     if folder:
-        file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+        file_path = './data/' + dataset + '/output' \
                     + '/{}/{}/{}/{}/'.format(network_type, model, folder, ufid)
     else:
-        file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+        file_path = './data/' + dataset + '/output' \
                     + '/{}/{}/{}/'.format(network_type, model, ufid)
-    data = load(file_path + '{}_{}_{}.npz'.format('dragonvib', replication, train_test))
+    data = load(file_path + '{}_{}_{}.npz'.format('causalvib', replication, train_test))
     return data['ate_mean'].reshape(1, 1), data['ate_var'].reshape(1, 1), \
            data['ite_mean'].reshape(-1, 1), data['ite_var'].reshape(-1, 1)
 
@@ -139,7 +139,7 @@ class ihdp_eval:
         kn = 50
         train_test = 'test'
         dict = {'dragonnet': {'baseline': 0, 'targeted_regularization': 0},
-                'dragonvib': {'baseline': 0, 'targeted_regularization': 0},
+                'causalvib': {'baseline': 0, 'targeted_regularization': 0},
                 'cevae': {'baseline': 0, 'targeted_regularization': 0},
                 'tarnet': {'baseline': {'back_door': 0, }, 'targeted_regularization': 0},
                 'nednet': {'baseline': 0, 'targeted_regularization': 0}}
@@ -152,7 +152,7 @@ class ihdp_eval:
         kl = []
         data1, data2, data3 = [], [], []
         for dataset in ['ihdp']:
-            for network_type in ['dragonnet', 'dragonvib']:  #
+            for network_type in ['dragonnet', 'causalvib']:  #
                 print('-----', network_type, '-----')
                 for model in ['targeted_regularization', 'baseline']:  #
                     simple_errors, tmle_errors = [], []
@@ -259,7 +259,7 @@ class std_eval:
 
         train_test = 'test'
         dict = {'dragonnet': {'baseline': 0, 'targeted_regularization': 0},
-                'dragonvib': {'baseline': 0, 'targeted_regularization': 0},
+                'causalvib': {'baseline': 0, 'targeted_regularization': 0},
                 'cevae': {'baseline': 0, 'targeted_regularization': 0},
                 'tarnet': {'baseline': {'back_door': 0, }, 'targeted_regularization': 0},
                 'nednet': {'baseline': 0, 'targeted_regularization': 0}}
@@ -272,7 +272,7 @@ class std_eval:
         kl = []
         data1, data2, data3 = [], [], []
         for dataset in [self.__dataset]:
-            for network_type in ['dragonnet', 'dragonvib', 'cevae', 'tarnet']:  #
+            for network_type in ['dragonnet', 'causalvib', 'cevae', 'tarnet']:  #
                 print('-----', network_type, '-----')
                 for model in ['targeted_regularization', 'baseline']:  #
                     simple_errors, tmle_errors = [], []
@@ -367,7 +367,7 @@ class acic_eval:
     def make_table(self):
         train_test = 'test'
         dict = {'dragonnet': {'baseline': 0, 'targeted_regularization': 0},
-                'dragonvib': {'baseline': 0, 'targeted_regularization': 0},
+                'causalvib': {'baseline': 0, 'targeted_regularization': 0},
                 'cevae': {'baseline': 0, 'targeted_regularization': 0},
                 'tarnet': {'baseline': {'back_door': 0, }, 'targeted_regularization': 0},
                 'nednet': {'baseline': 0, 'targeted_regularization': 0}}
@@ -379,12 +379,12 @@ class acic_eval:
         peherel_dict = copy.deepcopy(dict)
         data1, data2, data3 = [], [], []
         for dataset in ['acic']:
-            for network_type in ['dragonnet', 'dragonvib', 'tarnet']:  # , 'cevae'
+            for network_type in ['dragonnet', 'causalvib', 'tarnet']:  # , 'cevae'
                 print('-----', network_type, '-----')
                 for model in ['baseline', 'targeted_regularization']:
 
                     for fld in ['scaling']:  # 'censoring',
-                        sim_dir = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+                        sim_dir = './data/' + dataset + '/output' \
                                   + '/{}/{}/{}'.format(network_type, model, fld)
                         ufids = sorted(glob.glob("{}/*".format(sim_dir)))
                         ufid_simple = pd.Series(np.zeros(len(ufids)))
@@ -402,7 +402,7 @@ class acic_eval:
                             all_psi_n, all_psi_tmle = [], []
                             ite, ate, pehe, peherel = [], [], [], []
                             a, b = load_truth(ufid, network_type, dataset)
-                            truth_dir = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\'
+                            truth_dir = './data/' + dataset + '\\'
                             truth = load_param(truth_dir, ufid, fld)
                             for rep in range(self.rep):
                                 q_t0, q_t1, g, t, y, index, eps = load_data(network_type, rep, model, train_test,

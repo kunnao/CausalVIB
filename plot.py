@@ -52,10 +52,10 @@ def load_data(network_type='default', replication=0, model='baseline', train_tes
     loading train test experiment results
     """
     if folder:
-        file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+        file_path = './data/' + dataset + '/output' \
                     + '/{}/{}/{}/{}/'.format(network_type, model, folder, ufid)
     else:
-        file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+        file_path = './data/' + dataset + '/output' \
                     + '/{}/{}/{}/'.format(network_type, model, ufid)
     data = load(file_path + '{}_{}_{}.npz'.format(network_type, replication, train_test))
     return data['q_t0'].reshape(-1, 1), data['q_t1'].reshape(-1, 1), data['g'].reshape(-1, 1), \
@@ -63,18 +63,18 @@ def load_data(network_type='default', replication=0, model='baseline', train_tes
 
 
 def load_guss_result(replication=0, train_test='test_guss', dataset='ihdp',
-                     ufid=0, network_type='dragonvib',
+                     ufid=0, network_type='causalvib',
                      folder=None, model='targeted_regularization'):
     """
     loading train test experiment results
     """
     if folder:
-        file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+        file_path = './data/' + dataset + '/output' \
                     + '/{}/{}/{}/{}/'.format(network_type, model, folder, ufid)
     else:
-        file_path = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat\\' + dataset + '\\output' \
+        file_path = './data/' + dataset + '/output' \
                     + '/{}/{}/{}/'.format(network_type, model, ufid)
-    data = load(file_path + '{}_{}_{}.npz'.format('dragonvib', replication, train_test))
+    data = load(file_path + '{}_{}_{}.npz'.format('causalvib', replication, train_test))
     return data['ate_mean'].reshape(1, 1), data['ate_var'].reshape(1, 1), \
            data['ite_mean'].reshape(-1, 1), data['ite_var'].reshape(-1, 1)
 
@@ -101,7 +101,7 @@ class std_eval:
         kldiv = data_in['kl'].round()
         train_test = 'test'
         dict = {'dragonnet': {'baseline': 0, 'targeted_regularization': 0},
-                'dragonvib': {'baseline': 0, 'targeted_regularization': 0},
+                'causalvib': {'baseline': 0, 'targeted_regularization': 0},
                 'cevae': {'baseline': 0, 'targeted_regularization': 0},
                 'tarnet': {'baseline': {'back_door': 0, }, 'targeted_regularization': 0},
                 'nednet': {'baseline': 0, 'targeted_regularization': 0}}
@@ -113,10 +113,10 @@ class std_eval:
         kl = []
         data1, data2, data3, data4 = [], [], [], []
         # data = pd.DataFrame({'kl': np.zeros([1]), 'ate': np.zeros([1]), 'model': np.zeros([1])})
-        name = {'dragonnet': 'dragonnet', 'dragonvib': 'CEVIB'}
+        name = {'dragonnet': 'dragonnet', 'causalvib': 'CEVIB'}
         mnam = {'baseline': '', 'targeted_regularization': '-tarreg'}
         for dataset in [self.__dataset]:
-            for network_type in ['dragonnet','dragonvib']:  #
+            for network_type in ['dragonnet', 'causalvib']:  #
                 print('-----', network_type, '-----')
                 for model in ['baseline', 'targeted_regularization']:  #
                     simple_errors, tmle_errors = [], []
@@ -165,11 +165,11 @@ class std_eval:
                             tem.append(ate1)
                             pehe.append(pehe1)
                             # print(idx, ':', err)
-                            if network_type == 'dragonvib' and model == 'targeted_regularization':  #  'baseline'
+                            if network_type == 'causalvib' and model == 'targeted_regularization':  # 'baseline'
                                 break
                             data1.append(kldiv[idx])
                             data2.append(ate1)
-                            data3.append(name[network_type]+mnam[model])
+                            data3.append(name[network_type] + mnam[model])
                             data4.append(pehe1)
                     dict[network_type][model] = np.nanmean(simple_errors)
                     tmle_dict[network_type][model] = np.nanmean(tmle_errors)
@@ -180,7 +180,8 @@ class std_eval:
                     pehe_dict[network_type][model] = np.nanmean(pehe)
                 # print(kl)
         data = pd.DataFrame({'Kullback-Leibler divergence': data1, '∈ate': data2, 'model': data3})
-        sns.boxplot(x="Kullback-Leibler divergence", y="∈ate", data=data, hue="model", width=0.3, linewidth=1.0, palette="Set3")
+        sns.boxplot(x="Kullback-Leibler divergence", y="∈ate", data=data, hue="model", width=0.3, linewidth=1.0,
+                    palette="Set3")
         plt.savefig("simu_result_ate.pdf", dpi=333)
         plt.show()
 

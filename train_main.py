@@ -10,19 +10,19 @@ from data_feeder import StandardNumpyLoader
 
 
 def main():
-    dataPath = 'D:\\study_research\\Causal Effect Inference\\dragonnet-master\\dat'
+    dataPath = './data'
     outputDir = "output/"
     parser = argparse.ArgumentParser(description="Train a pruned neural network for energy disaggregation. ")
     parser.add_argument('--datadir', type=str, default=dataPath, help="directory of dataset")
-    parser.add_argument('--dataset', type=str, default='simu', help="acic or ihdp or twin or simu")  # ACIC IHDP
+    parser.add_argument('--dataset', type=str, default='ihdp', help="acic or ihdp or twin or simu")  # ACIC IHDP
     parser.add_argument('--outputd', type=str, default=outputDir, help="directory of output")
     parser.add_argument('--batch_size', type=int, default=512, help="batch size")
-    parser.add_argument('--epoch', type=int, default=200, help="epoch")
+    parser.add_argument('--epoch', type=int, default=20, help="epoch")
     parser.add_argument("--targeted_regularization", type=int, default=0)
     parser.add_argument("--auto", type=int, default=0)
-    parser.add_argument("--network_type", type=remove_space, default='dragonvib', help="dragonnet or dragonvib or tarnet or nednet or cevae")
+    parser.add_argument("--network_type", type=remove_space, default='causalvib', help="dragonnet or causalvib or tarnet or nednet or cevae")
     parser.add_argument("--plot_result", type=bool, default=True)
-    parser.add_argument("--replication", type=int, default=50)
+    parser.add_argument("--replication", type=int, default=1)
     parser.add_argument('--folder', type=str, default='scaling', help='which data sub directory')
 
     args = parser.parse_args()
@@ -34,8 +34,8 @@ def main():
     if args.network_type == 'dragonnet':
         network = dragonnet(args.targeted_regularization)
 
-    elif args.network_type == 'dragonvib':
-        network = dragonvib(args.targeted_regularization)
+    elif args.network_type == 'causalvib':
+        network = causalvib(args.targeted_regularization)
     elif args.network_type == 'cevae':
         network = CEVAE()
     elif args.network_type == 'nednet':

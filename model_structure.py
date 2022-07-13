@@ -84,7 +84,7 @@ class VIB(Layer):
         return input_shape[0]
 
 
-class dragonvib:
+class causalvib:
 
     def __init__(self, targeted_regularization=True):
         self.elbo = None

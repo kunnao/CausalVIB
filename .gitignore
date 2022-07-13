@@ -3,9 +3,18 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+data/ihdp/
+data/ihdpsavemodels/
+data/acic/
+data/acicsavemodels/
+data/twins/
+data/twinssavemodels/
+data/simu_bias/
+data/simu_biassavemodels/
+
 # C extensions
 *.so
-
+.idea/
 # Distribution / packaging
 .Python
 build/
