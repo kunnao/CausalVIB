@@ -1,0 +1,89 @@
+absl-py==0.12.0
+astor==0.8.1
+astunparse==1.6.3
+attrdict==2.0.1
+autograd==1.3
+backcall==0.2.0
+cached-property==1.5.2
+cachetools==4.2.1
+certifi==2020.12.5
+chardet==4.0.0
+cloudpickle==1.6.0
+colorama==0.4.4
+cycler==0.10.0
+decorator==5.0.7
+dm-tree==0.1.6
+flatbuffers==1.12
+future==0.18.2
+gast==0.4.0
+google-auth==1.29.0
+google-auth-oauthlib==0.4.4
+google-pasta==0.2.0
+grpcio==1.34.1
+h5py==3.1.0
+idna==2.10
+importlib-metadata==4.0.0
+ipython==7.30.1
+jedi==0.18.1
+joblib @ file:///tmp/build/80754af9/joblib_1613502643832/work
+Keras==2.3.1
+Keras-Applications==1.0.8
+keras-nightly==2.5.0.dev2021032900
+Keras-Preprocessing==1.1.2
+kiwisolver @ file:///C:/ci/kiwisolver_1612282618948/work
+Markdown==3.3.4
+matplotlib @ file:///C:/ci/matplotlib-suite_1613408055530/work
+matplotlib-inline==0.1.3
+mkl-fft==1.3.0
+mkl-random==1.1.1
+mkl-service==2.3.0
+mysqlclient==2.1.0
+numpy==1.19.5
+oauthlib==3.1.0
+olefile==0.46
+opencv-contrib-python==4.5.5.64
+opt-einsum==3.3.0
+pandas==1.2.4
+parso==0.8.3
+pickleshare==0.7.5
+Pillow @ file:///C:/ci/pillow_1617386319301/work
+prompt-toolkit==3.0.24
+protobuf==3.15.8
+py4j==0.10.9.3
+pyarrow==7.0.0
+pyasn1==0.4.8
+pyasn1-modules==0.2.8
+pygal==2.4.0
+Pygments==2.10.0
+pyparsing @ file:///home/linux1/recipes/ci/pyparsing_1610983426697/work
+pyspark==3.2.1
+python-dateutil @ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
+pytz==2021.1
+PyYAML==5.4.1
+requests==2.25.1
+requests-oauthlib==1.3.0
+rsa==4.7.2
+scikit-learn @ file:///C:/ci/scikit-learn_1614446716349/work
+scipy==1.4.1
+seaborn==0.11.2
+six @ file:///home/linux1/recipes/ci/six_1610970791821/work
+sklearn==0.0
+tensorboard==2.5.0
+tensorboard-data-server==0.6.0
+tensorboard-plugin-wit==1.8.0
+tensorflow-estimator==2.5.0
+tensorflow-gpu==2.5.0
+tensorflow-gpu-estimator==2.3.0
+tensorflow-probability==0.12.2
+termcolor==1.1.0
+tfp-nightly==0.13.0.dev20210429
+threadpoolctl @ file:///tmp/tmp9twdgx9k/threadpoolctl-2.1.0-py3-none-any.whl
+tornado @ file:///C:/ci/tornado_1606935947090/work
+traitlets==5.1.1
+typing-extensions==3.7.4.3
+urllib3==1.26.4
+wcwidth==0.2.5
+Werkzeug==1.0.1
+wincertstore==0.2
+wrapt==1.12.1
+zipp==3.4.1
