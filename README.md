@@ -85,6 +85,8 @@ To train the model, just run `python train_main.py` or in IDE environment, e.g.,
 
 For example:
 
-```python train_main.py --network_type dragonvib --dataset ihdp --batch_size 128 --replication 50```
+```python train_main.py --network_type causalvib --dataset ihdp --batch_size 128 --replication 50```
+
+To test the model, just run `python val_main.py` or in IDE environment, e.g., Spyder, run val_main.py
 
 Any questions, please write email to me: zhenyulu98@foxmail.com

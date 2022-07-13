@@ -12,6 +12,8 @@ data/twinssavemodels/
 data/simu_bias/
 data/simu_biassavemodels/
 *.bat
+log/
+venv/
 
 # C extensions
 *.so
