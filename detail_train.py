@@ -79,6 +79,7 @@ class Trainer:
         assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
         tf.config.experimental.set_memory_growth(physical_devices[0], True)
         tf.compat.v1.enable_eager_execution()
+
         #  callbacks = [early_stopping, checkpoint]  # , tensorboard
         rep = self.__rep
         # Load data set
@@ -246,7 +247,7 @@ class Trainer:
         plt.legend()
         plt.show()
 
-    def save_model(model, network_type, algorithm, appliance, save_model_dir):
+    def save_model(self, model, network_type, algorithm, appliance, save_model_dir):
 
         # model_path = "saved_models/" + appliance + "_" + algorithm + "_" + network_type + "_model.h5"
         model_path = save_model_dir
@@ -258,8 +259,9 @@ class Trainer:
 
 
 def _split_output(yt_hat, t, y, y_scaler, x, index):
-    q_t0 = y_scaler.inverse_transform(yt_hat[:, 0].copy())
-    q_t1 = y_scaler.inverse_transform(yt_hat[:, 1].copy())
+    xx = yt_hat[:, 0].reshape(1, -1)
+    q_t0 = y_scaler.inverse_transform(yt_hat[:, 0].reshape(1, -1).copy()).reshape(-1)
+    q_t1 = y_scaler.inverse_transform(yt_hat[:, 1].reshape(1, -1).copy()).reshape(-1)
     g = yt_hat[:, 2].copy()
 
     if yt_hat.shape[1] >= 4:
