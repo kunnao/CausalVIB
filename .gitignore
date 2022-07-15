@@ -11,6 +11,7 @@ data/twins/
 data/twinssaved_models/
 data/simu_bias/
 data/simu_biassaved_models/
+adam_model.h5
 *.bat
 log/
 venv/

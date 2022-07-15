@@ -259,7 +259,6 @@ class Trainer:
 
 
 def _split_output(yt_hat, t, y, y_scaler, x, index):
-    xx = yt_hat[:, 0].reshape(1, -1)
     q_t0 = y_scaler.inverse_transform(yt_hat[:, 0].reshape(1, -1).copy()).reshape(-1)
     q_t1 = y_scaler.inverse_transform(yt_hat[:, 1].reshape(1, -1).copy()).reshape(-1)
     g = yt_hat[:, 2].copy()
