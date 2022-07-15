@@ -4,13 +4,13 @@ __pycache__/
 *$py.class
 
 data/ihdp/
-data/ihdpsavemodels/
+data/ihdpsaved_models/
 data/acic/
-data/acicsavemodels/
+data/acicsaved_models/
 data/twins/
-data/twinssavemodels/
+data/twinssaved_models/
 data/simu_bias/
-data/simu_biassavemodels/
+data/simu_biassaved_models/
 *.bat
 log/
 venv/
