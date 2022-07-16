@@ -71,10 +71,6 @@ class Trainer:
         checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath=modeldir, monitor='val_loss',
                                                         save_best_only=True)  # False
 
-        '''config = tf.compat.v1.ConfigProto(allow_soft_placement=True)
-        config.gpu_options.allow_growth = True
-        config.gpu_options.per_process_gpu_memory_fraction = 0.5
-        sess = tf.compat.v1.Session(config=config)'''
         physical_devices = tf.config.experimental.list_physical_devices('GPU')
         assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
         tf.config.experimental.set_memory_growth(physical_devices[0], True)

@@ -12,7 +12,7 @@ from data_feeder import StandardNumpyLoader
 def main():
     dataPath = './data'
     outputDir = "output/"
-    parser = argparse.ArgumentParser(description="Train a pruned neural network for energy disaggregation. ")
+    parser = argparse.ArgumentParser(description="Train a neural network for causal inference. ")
     parser.add_argument('--datadir', type=str, default=dataPath, help="directory of dataset")
     parser.add_argument('--dataset', type=str, default='ihdp', help="acic or ihdp or twin or simu")  # ACIC IHDP
     parser.add_argument('--outputd', type=str, default=outputDir, help="directory of output")

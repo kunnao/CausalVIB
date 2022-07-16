@@ -37,19 +37,17 @@ CausalVIB/
 │--detail_train.py
 │--evalution.py
 │--model_structure.py
-│--nilm_metric.py
 │--plot.py
 │--plot_res.py
 │--read.py
 │--README.md
 │--remove_space.py
 │--requirements.txt
-│--seq2point_train.py
 │--test_on_running.py
 │--train_main.py
 │--utils.py
 │--val_main.py
-│--Variational_information_bottleneck_for_causal_inference (1).pdf
+│--Variational_information_bottleneck_for_causal_inference.pdf
 │
 └─semi_parametric_estimation
    │--ate.py
