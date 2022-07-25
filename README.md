@@ -87,7 +87,7 @@ For example:
 
 The training process is shown in the figure as follow：
 
-![Training flow chart](./Training flow chart.jpg)
+![Training flow chart](./img/Training flow chart.jpg)
 
 To test the model, just run `python val_main.py` or in IDE environment, e.g., Spyder, run val_main.py
 
