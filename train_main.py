@@ -3,6 +3,7 @@ from detail_train import Trainer
 from remove_space import remove_space
 from model_structure import *
 from data_feeder import StandardNumpyLoader
+import matplotlib.pyplot as plt
 
 # Allows a model to be tested from the terminal.
 

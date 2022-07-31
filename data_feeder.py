@@ -215,8 +215,12 @@ class StandardNumpyLoader:
                     np.squeeze(y[test_index]), axis=1)
                 t_train, t_test = np.expand_dims(np.squeeze(t[train_index]), axis=1), np.expand_dims(
                     np.squeeze(t[test_index]), axis=1)
-                yield [[x_train, y_train, t_train, train_index],
-                       [x_test, y_test, t_test, y_scaler, test_index],
+                mu0_train, mu0_test = np.expand_dims(np.squeeze(mu_0[train_index]), axis=1), np.expand_dims(
+                    np.squeeze(mu_0[test_index]), axis=1)
+                mu1_train, mu1_test = np.expand_dims(np.squeeze(mu_1[train_index]), axis=1), np.expand_dims(
+                    np.squeeze(mu_1[test_index]), axis=1)
+                yield [[x_train, y_train, t_train, train_index, mu0_train, mu1_train],
+                       [x_test, y_test, t_test, y_scaler, test_index, mu0_test, mu1_test],
                        output_dir, ufid]
         return None
 
