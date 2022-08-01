@@ -1,6 +1,6 @@
 import argparse
 from detail_train import Trainer
-from remove_space import remove_space
+from utils import *
 from model_structure import *
 from data_feeder import StandardNumpyLoader
 import matplotlib.pyplot as plt
@@ -24,6 +24,7 @@ def main():
     parser.add_argument("--network_type", type=remove_space, default='causalvib', help="dragonnet or causalvib or tarnet or nednet or cevae")
     parser.add_argument("--plot_result", type=bool, default=True)
     parser.add_argument("--replication", type=int, default=1)
+    parser.add_argument("--list_to_execute", type=str2int_list, default='1,2', help="switch files to train") # '1,2'
     parser.add_argument('--folder', type=str, default='scaling', help='which data sub directory')
 
     args = parser.parse_args()
@@ -68,7 +69,8 @@ def main():
                       plot_result=args.plot_result,
                       folder=args.folder,
                       auto=args.auto,
-                      rep=args.replication)
+                      rep=args.replication,
+                      exelist=args.list_to_execute)
     trainer.train_model()
 
 

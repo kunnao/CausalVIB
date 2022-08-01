@@ -8,7 +8,7 @@ from tensorflow.keras.callbacks import TerminateOnNaN, ReduceLROnPlateau, EarlyS
 from tensorflow.keras.optimizers import Adam, SGD
 import tensorflow.keras.backend as K
 from data_feeder import SpecDataGenerator, StandardNumpyLoader
-from model_structure import save_model, create_nednet_model, create_tarnet_model, dragonnet, causalvib, CEVAE, \
+from model_structure import create_nednet_model, create_tarnet_model, dragonnet, causalvib, CEVAE, \
     dragonnet_loss_binarycross, Metrics
 from tensorflow.keras.layers import Layer
 
@@ -22,7 +22,8 @@ class Trainer:
                  output_dir,
                  folder,
                  plot_result=True, auto=0,
-                 epoch=100, validation_frequency=1, patience=8, min_delta=1e-5, verbose=1, rep=1):
+                 epoch=100, validation_frequency=1, patience=8, min_delta=1e-5, verbose=1, rep=1, exelist=None):
+        self.file_now = 0
         self.network = network
         self.__network_type = network_type
         self.__dataset = dataset
@@ -31,6 +32,7 @@ class Trainer:
         self.__verbose = verbose
         self.__batch_size = batch_size
         self.__epoch = epoch
+        self.__exelist = exelist
         self.__loss = "mse"
         self.__metrics = ["mse"]
         self.__learning_rate = 0.001
@@ -50,6 +52,7 @@ class Trainer:
                                                     shuffle=True, test_size=0.3)
         self.__standard_loader = data_loader
         self.__rep = rep
+        self.rep_now = 0
         self.__auto = auto
         # StandardNumpyLoader(file_name='./data/ihdp_npci.npz', output_file=self.__output_dir,
         #                                              shuffle=True, test_size=0.3)
@@ -100,17 +103,21 @@ class Trainer:
         metrics = Metrics()
         import time
         start_time = time.time()
-
+        self.file_now = 0
         while True:
             self.__train_outputs = []
             self.__test_outputs = []
             test_output, train_output = [], []
             self.vib_mean_var = []
-
+            self.file_now = self.file_now + 1
             for i in range(rep):
+                print(self.file_now)
+                self.rep_now = rep
                 dataset = next(data_feeder)
                 if dataset is None:
                     break
+                elif self.__exelist is not None and self.file_now not in self.__exelist:
+                    continue
                 train, test, ufid_output_file, ufid = dataset[0], dataset[1], dataset[2], dataset[3]
                 # self.__batch_size = math.ceil(train[1].shape[0] * 0.7 // 10)
                 sgd = 1
@@ -224,7 +231,7 @@ class Trainer:
                 np.savez_compressed(
                     os.path.join(train_output_dir, "{}".format(self.__network_type) + "_{}_test_guss.npz".format(num)),
                     **output)
-            save_model(model, self.__network_type, self.__save_model_dir)
+            self.save_model(model, self.__network_type, self.__save_model_dir)
 
     def plot_test_data(self, dic_train, dic_test, training_history):
         ntrain, ntest = dic_train['q_t0'].shape[0], dic_test['q_t0'].shape[0]
@@ -249,21 +256,28 @@ class Trainer:
         ate = np.mean(q_t1 - q_t0)
         ate_true = np.mean(ite_true)
 
-        nrows, rrows = 3, 2
+        nrows, rrows = 2, 2
         ms = 18
         # plot
         sp1 = Trainer.new_subplot([nrows, rrows, 1], xl='y0', yl='y0_predict', title='scatter for y0')
         sp1.scatter(mu0, q_t0, c='r', edgecolors='darkslategray')
+        sp1.set_xlim(0, 10)
+        sp1.set_ylim(0, 10)
 
         sp2 = Trainer.new_subplot([nrows, rrows, 2], xl='y1', yl='y1_predict', title='scatter for y1')
         sp2.scatter(mu1, q_t1, c='r', edgecolors='darkslategray')
+        sp2.set_xlim(0, 10)
+        sp2.set_ylim(0, 10)
 
-        train_loss = Trainer.new_subplot([nrows, rrows, (3, 4)], xl='epoch', yl='loss', title='MSE (Training and Validation Loss)')
-        train_loss.plot(np.array(training_history.history["loss"]), label='loss', marker="x", color='darkslategray')
-        train_loss.plot(np.array(training_history.history["val_loss"]), label='val_loss', marker="o", color='forestgreen')
-        plt.legend()
-
-        effect = Trainer.new_subplot([nrows, rrows, (5, 6)], xl='patient', yl='Treatment effect', title='ATE and ITE')
+        # train_loss = Trainer.new_subplot([nrows, rrows, (3, 4)], xl='epoch', yl='loss', title='MSE (Training and Validation Loss)')
+        # train_loss.plot(np.array(training_history.history["loss"]), label='loss', marker="x", color='darkslategray')
+        # train_loss.plot(np.array(training_history.history["val_loss"]), label='val_loss', marker="o", color='forestgreen')
+        # plt.legend()
+        import random
+        x = [random.randint(0, ite.shape[0] - 1) for i in range(81)]
+        ite = ite[x]
+        ite_true = ite_true[x]
+        effect = Trainer.new_subplot([nrows, rrows, (3, 4)], xl='patient', yl='Treatment effect', title='ATE and ITE')
         effect.scatter(np.arange(0, ite.shape[0]), ite, label='ITE_predict', marker="x", color='firebrick')
         effect.scatter(np.arange(0, ite.shape[0]), ite_true, label='ITE_true', marker="+", color='darkslategray')
         effect.plot(np.arange(0, ite.shape[0]), np.ones_like(ite) * ate, label='ATE_predict', marker=",", color='forestgreen')
@@ -292,7 +306,7 @@ class Trainer:
         plt.legend()
         plt.show()
 
-    def save_model(self, model, network_type, algorithm, appliance, save_model_dir):
+    def save_model(self, model, network_type, save_model_dir, algorithm=None, appliance=None):
 
         # model_path = "saved_models/" + appliance + "_" + algorithm + "_" + network_type + "_model.h5"
         model_path = save_model_dir
