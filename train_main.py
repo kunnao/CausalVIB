@@ -24,7 +24,7 @@ def main():
     parser.add_argument("--network_type", type=remove_space, default='causalvib', help="dragonnet or causalvib or tarnet or nednet or cevae")
     parser.add_argument("--plot_result", type=bool, default=True)
     parser.add_argument("--replication", type=int, default=1)
-    parser.add_argument("--list_to_execute", type=str2int_list, default='1,2', help="switch files to train") # '1,2'
+    parser.add_argument("--list_to_execute", type=str2int_list, default=None, help="switch files to train")  # '1,2'
     parser.add_argument('--folder', type=str, default='scaling', help='which data sub directory')
 
     args = parser.parse_args()

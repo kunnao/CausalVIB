@@ -11,7 +11,7 @@ def str2int_list(string, sep=','):
     except Exception as e:
         print(e)
     try:
-        x = [int(x) for x in string.split('-')]
+        x = [int(x) for x in string.split('~')]
         return [i for i in range(x[0], x[1])]
     except Exception as e:
         print(e)

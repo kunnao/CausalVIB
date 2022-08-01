@@ -89,6 +89,8 @@ The training process is shown in the figure as follow：
 
 ![image](img/TrainingFlowChart.jpg)
 
+If you want to select the file to be trained, please use parameter "list_to_execute" (you can use commas(,) to select separately, such as'1,2,3'; or use wave sign(~) to select several consecutive files, such as'1~3'; if it does not conform to the format, train all files in the dataset).
+
 To test the model, just run `python val_main.py` or in IDE environment, e.g., Spyder, run val_main.py
 
 Any questions, please write email to me: zhenyulu98@foxmail.com
